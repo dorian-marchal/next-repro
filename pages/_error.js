@@ -1,18 +1,37 @@
 import React from "react";
 
-let renderCount = 0;
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return "Internal Error.";
+    }
+
+    return this.props.children;
+  }
+}
+
+const ErrorTemplate = () => {
+  // ReferenceError: foo is not defined.
+  foo;
+  return "OK";
+};
 
 class Error extends React.Component {
   render() {
-    renderCount++;
-
-    // Guard to avoid endless loop crashing the browser tab.
-    if (renderCount < 20) {
-      // ReferenceError: foo is not defined.
-      foo;
-    }
     return (
-      <span>{`_error threw ${renderCount} times (see console in browser devtools).`}</span>
+      <ErrorBoundary>
+        {/* If ErrorTemplate throws, the boundary will catch it. */}
+        <ErrorTemplate {...this.props} />
+      </ErrorBoundary>
     );
   }
 }
