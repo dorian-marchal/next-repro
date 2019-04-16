@@ -1,5 +1,11 @@
 import React from "react";
 import App, { Container } from "next/app";
+import withRedux from "next-redux-wrapper";
+import { createStore } from "redux";
+
+function makeStore() {
+  return createStore(state => state, { isLoggedIn: true });
+}
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -23,4 +29,4 @@ class MyApp extends App {
   }
 }
 
-export default MyApp;
+export default withRedux(makeStore)(MyApp);
