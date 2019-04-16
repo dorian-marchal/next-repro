@@ -4,6 +4,7 @@ import withRedux from "next-redux-wrapper";
 import { createStore } from "redux";
 
 function makeStore() {
+  foo; // ReferenceError, foo is undefined.
   return createStore(state => state, { isLoggedIn: true });
 }
 
