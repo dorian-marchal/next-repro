@@ -6,9 +6,9 @@ import Document, { Html, Head, Main, NextScript } from "next/document";
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
-    console.log(ctx);
+    const state = ctx.store.getState();
     const initialProps = await Document.getInitialProps(ctx);
-    return { ...initialProps };
+    return { ...initialProps, isLoggedIn: state.isLoggedIn };
   }
 
   render() {
@@ -17,7 +17,7 @@ class MyDocument extends Document {
         <Head>
           <style>{`body { margin: 0 } /* custom! */`}</style>
         </Head>
-        <body className="custom_class">
+        <body className={this.props.isLoggedIn ? "logged-in" : ""}>
           <Main />
           <NextScript />
         </body>
